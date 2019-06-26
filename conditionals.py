@@ -1,13 +1,12 @@
 
-x=10
+x=2
 y=20
 
-if x==y:
-    print("This print statement should never be run")
+if x==1:
+    print("x is equal to 1")
+elif x==2:
+    print("x is equal to 2")
+elif x==3:
+    print("x is equal to 3")
 else:
-    print("x is NOT equal to y")
-
-if y>x:
-    print("Y is greater than x")
-else:
-    print("this print statement also, should never run")
+    print("x is NOT a number from 1-3")
