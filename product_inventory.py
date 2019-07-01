@@ -1,13 +1,24 @@
 from json import dumps, loads
+from os import system
+
+try:
+    import colorama
+    from colorama import Fore,Back,Style
+    colorama.init(autoreset=True)
+except ImportError:
+    pass
 
 products = []
 
 class Product:
     def __init__(self, name, price):
         self.name = name
-        self.price = price
+        self.price = round(price,2)
     def to_dict(self):
         return {"name": self.name, "price": self.price}
+
+def clear():
+    system('clear')
 
 def load_products():
     products_file = open("products.json","r+")
@@ -22,10 +33,11 @@ def load_products():
 def add_product(name, price):
     new_product = Product(name, price)
     products.append(new_product)
+    clear()
     
 def list_products(products):
     for p in products:
-        print("Product ({}) : Price: ${}".format(p.name, p.price))
+        print("Product ({0:10}) : Price: ${1:.2f}".format(p.name, p.price))
 
 def save_products(products):
     product_save_list = []
@@ -35,15 +47,17 @@ def save_products(products):
     products_file.write(dumps(product_save_list))
     products_file.close()
 
+clear()
 products = load_products()
 
 while True:
-    print("Type 'add' to add a product")
-    print('Type "quit" to quit the program')
-    print('Type "list" to list all the products')
+    print(Fore.RED + "----------" + Fore.RESET + "\nType '" + Fore.GREEN + "add" + Fore.RESET + "' to add a product")
+    print("Type '" + Fore.GREEN + "quit" + Fore.RESET + "' to quit the program")
+    print("Type '" + Fore.GREEN + "list" + Fore.RESET + "' to list all the products")
     command = input('Type a command: ')
     if command == "quit":
         save_products(products)
+        clear()
         break
 
     if command == "add":
@@ -52,4 +66,5 @@ while True:
         add_product(product_name, product_price)
 
     if command == "list":
+        clear()
         list_products(products)
